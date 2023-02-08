@@ -37,7 +37,7 @@ namespace Mission6_nb348.Controllers
         [HttpPost]
         public IActionResult NewMovie(MovieModel model)
         {
-            return View("Index");
+            return View();
         }
         
         public IActionResult Privacy()
