@@ -12,10 +12,12 @@ namespace Mission6_nb348.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private MovieDatabaseContext movieContext { get; set; }
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, MovieDatabaseContext context)
         {
             _logger = logger;
+            movieContext = context;
         }
 
         public IActionResult Index()
@@ -37,7 +39,17 @@ namespace Mission6_nb348.Controllers
         [HttpPost]
         public IActionResult NewMovie(MovieModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                movieContext.Add(model);
+                movieContext.SaveChanges();
+                return View("Confirmation");
+            }
+            else 
+            {
+                return View();
+            }
+            
         }
         
         public IActionResult Privacy()

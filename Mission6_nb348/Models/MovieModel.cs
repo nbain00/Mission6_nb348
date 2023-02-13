@@ -8,6 +8,9 @@ namespace Mission6_nb348.Models
 {
     public class MovieModel
     {
+        [Key]
+        public int MovieID { get; set; }
+
         [Required]
         public string Category { get; set; }
 
