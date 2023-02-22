@@ -8,8 +8,8 @@ using Mission6_nb348.Models;
 namespace Mission6_nb348.Migrations
 {
     [DbContext(typeof(MovieDatabaseContext))]
-    [Migration("20230213203911_Initial")]
-    partial class Initial
+    [Migration("20230222003458_intitial")]
+    partial class intitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -17,15 +17,70 @@ namespace Mission6_nb348.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.32");
 
+            modelBuilder.Entity("Mission6_nb348.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryID = 4,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryID = 5,
+                            CategoryName = "Horror/Suspense"
+                        },
+                        new
+                        {
+                            CategoryID = 6,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryID = 7,
+                            CategoryName = "Television"
+                        },
+                        new
+                        {
+                            CategoryID = 8,
+                            CategoryName = "VHS"
+                        });
+                });
+
             modelBuilder.Entity("Mission6_nb348.Models.MovieModel", b =>
                 {
                     b.Property<int>("MovieID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -54,13 +109,15 @@ namespace Mission6_nb348.Migrations
 
                     b.HasKey("MovieID");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("Movies");
 
                     b.HasData(
                         new
                         {
                             MovieID = 1,
-                            Category = "Action",
+                            CategoryID = 1,
                             Director = "Christopher Nolan",
                             Edited = false,
                             LentTo = "",
@@ -72,7 +129,7 @@ namespace Mission6_nb348.Migrations
                         new
                         {
                             MovieID = 2,
-                            Category = "Action",
+                            CategoryID = 1,
                             Director = "Peter Ramsey",
                             Edited = false,
                             LentTo = "",
@@ -84,7 +141,7 @@ namespace Mission6_nb348.Migrations
                         new
                         {
                             MovieID = 3,
-                            Category = "Action",
+                            CategoryID = 1,
                             Director = "Christopher Nolan",
                             Edited = false,
                             LentTo = "",
@@ -93,6 +150,15 @@ namespace Mission6_nb348.Migrations
                             Title = "The Dark Knight",
                             Year = 2008
                         });
+                });
+
+            modelBuilder.Entity("Mission6_nb348.Models.MovieModel", b =>
+                {
+                    b.HasOne("Mission6_nb348.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
